@@ -1,2 +1,0 @@
-# ANISH-PODDER
-Embedded Systems
