@@ -1,0 +1,61 @@
+def analyze_text_file(file_path):
+    """Reads a text file, counts metrics, and handles missing file errors."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+            
+            # Reset pointer to read lines
+            file.seek(0)
+            lines = file.readlines()
+            
+            word_count = len(content.split())
+            line_count = len(lines)
+            char_count = len(content)
+            
+            print(f"--- Analysis Report for '{file_path}' ---")
+            print(f"Total Lines:      {line_count}")
+            print(f"Total Words:      {word_count}")
+            print(f"Total Characters: {char_count}")
+            
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' does not exist. Please check the path.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+if __name__ == "__main__":
+    # Create a dummy sample file to test success path
+    sample_filename = "sample.txt"
+    with open(sample_filename, "w") as f:
+        f.write("Hello World!\nWelcome to Python file handling.\nThis is step two.")
+        
+    print("--- Test 1: Successful Read ---")
+    analyze_text_file(sample_filename)
+    
+    print("\n--- Test 2: Error Handling ---")
+    analyze_text_file("missing_file.txt")
+def log_user_data(file_path, mode='a'):
+    """Writes or appends user input data to a specified text file."""
+    if mode not in ['w', 'a']:
+        print("Invalid mode selected. Use 'w' for write or 'a' for append.")
+        return
+
+    print(f"\n--- Operating in '{mode}' mode ---")
+    user_input = input("Enter text to save to the file: ")
+    
+    try:
+        with open(file_path, mode, encoding='utf-8') as file:
+            file.write(user_input + "\n")
+        print(f"Successfully saved data to '{file_path}'.")
+    except Exception as e:
+        print(f"Failed to write to file: {e}")
+
+if __name__ == "__main__":
+    output_file = "user_log.txt"
+    
+    # Run Write Mode (Overwrites existing content)
+    print("Step 3.1: Writing a new file (or overwriting).")
+    log_user_data(output_file, mode='w')
+    
+    # Run Append Mode (Adds to existing content)
+    print("\nStep 3.2: Appending to the same file.")
+    log_user_data(output_file, mode='a')
